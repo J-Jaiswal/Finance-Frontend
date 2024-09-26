@@ -2,7 +2,6 @@ import React, { createContext, useEffect, useState } from "react";
 import Axios from "axios";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../firebase.config";
-import { toast } from "react-toastify";
 export const FinanceContext = createContext();
 
 export const FinanceProvider = ({ children }) => {
@@ -24,7 +23,7 @@ export const FinanceProvider = ({ children }) => {
 
   const addTransaction = async (newRecord) => {
     try {
-      await Axios.post(`${serverURL}/add`, newRecord);
+      await Axios.post(`${serverURL}/finance-record/add`, newRecord);
       const response = await getUserTransactions();
 
       // console.log("Transaction added successfully:", response.data);
@@ -52,7 +51,7 @@ export const FinanceProvider = ({ children }) => {
     try {
       if (currentUser && currentUser.uid) {
         const res = await Axios.get(
-          `${serverURL}/gettingAllByUserid/${currentUser.uid}`
+          `${serverURL}/finance-record/gettingAllByUserid/${currentUser.uid}`
         );
         setRecords(res.data);
       } else {
@@ -66,7 +65,7 @@ export const FinanceProvider = ({ children }) => {
 
   const deleteTransaction = async (_id) => {
     try {
-      const res = await Axios.delete(`${serverURL}/${_id}`);
+      const res = await Axios.delete(`${serverURL}/finance-record/${_id}`);
       await getUserTransactions();
       // toast.info("Transaction deleted successsfully");
       // console.log("Transaction deleted successsfully", res.data);

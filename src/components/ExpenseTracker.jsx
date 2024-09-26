@@ -1,10 +1,8 @@
 import { useState, useContext, useEffect } from "react";
-import Axios from "axios";
 import { FinanceContext } from "../context/RecordContext";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../firebase.config";
 import { toast } from "react-toastify";
-import { FadeLoader } from "react-spinners";
 
 const ExpenseTracker = () => {
   const [description, setDescription] = useState("");
@@ -39,13 +37,11 @@ const ExpenseTracker = () => {
 
   const handleSubmit = async () => {
     try {
-      setLoading(true);
       await addTransaction(newRecord);
       setDescription("");
       setAmount("");
       setDate("");
       toast.success("Transaction added successfully");
-      setLoading(false);
       // console.log("Transaction added successfully");
     } catch (error) {
       toast.error("Error in adding transaction:", error);
