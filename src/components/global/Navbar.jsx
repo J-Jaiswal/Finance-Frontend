@@ -53,7 +53,7 @@ const Navbar = () => {
         </div>
 
         {/* Login/Profile Links */}
-        <div className="hidden md:flex space-x-8">
+        <div className="hidden md:flex items-center space-x-8">
           <Link to="/login" className="text-white  transition-colors">
             {currentUser ? (
               <div className="text-[30px]">
