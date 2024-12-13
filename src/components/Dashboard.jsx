@@ -13,12 +13,6 @@ import {
   ResponsiveContainer,
   BarChart,
   Bar,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
 } from "recharts";
 
 const Dashboard = () => {
