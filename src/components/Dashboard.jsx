@@ -11,6 +11,14 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  BarChart,
+  Bar,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
 } from "recharts";
 
 const Dashboard = () => {
@@ -89,7 +97,65 @@ const Dashboard = () => {
                 <Tooltip />
               </PieChart>
             </ResponsiveContainer>
+            {/* bar graph for income */}
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-lg font-semibold mb-2">Expenses Bar Chart</h3>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={financeData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="week 1" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="week 2" fill="#629584" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+            {/* bar graph  */}
+
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-lg font-semibold mb-2">Expenses Bar Chart</h3>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={financeData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey={financeData.name} />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey={financeData.Expenses} fill="#629584" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </div>
+          {/* bar graph for income */}
+          {/* <div className="bg-white p-6 rounded-lg shadow-md">
+            <h3 className="text-lg font-semibold mb-2">Expenses Bar Chart</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={financeData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="week 1" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="week 2" fill="#629584" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div> */}
+          {/* bar graph  */}
+
+          {/* <div className="bg-white p-6 rounded-lg shadow-md">
+            <h3 className="text-lg font-semibold mb-2">Expenses Bar Chart</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={financeData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey={financeData.name} />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey={financeData.Expenses} fill="#629584" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div> */}
 
           {/* Recent Transactions */}
           <div className="bg-white p-6 rounded-lg shadow-md">
