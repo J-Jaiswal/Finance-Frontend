@@ -8,6 +8,7 @@ import Register from "./components/authentication/Register";
 import Dashboard from "./components/Dashboard";
 import Footer from "./components/global/Footer";
 import Navbar from "./components/global/Navbar";
+import Profile from "./components/authentication/Profile";
 
 function App() {
   return (
@@ -16,9 +17,13 @@ function App() {
       <div className="container mx-auto ">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+
           <Route path="/register" element={<Register />} />
 
           <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
+
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/expenses" element={<ExpenseTracker />} />
           <Route path="/transactions" element={<TransactionHistory />} />

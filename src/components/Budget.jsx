@@ -7,7 +7,6 @@ function Budget() {
   const [paymentMethod, setPaymentMethod] = useState("Cash");
   const [description, setDescription] = useState("");
 
-  // Handle adding a new expense
   const handleAddExpense = (e) => {
     e.preventDefault();
     const newExpense = {
@@ -21,7 +20,6 @@ function Budget() {
     resetFields();
   };
 
-  // Reset form fields after submission
   const resetFields = () => {
     setCategory("");
     setAmount("");
@@ -29,22 +27,19 @@ function Budget() {
     setDescription("");
   };
 
-  // Handle form submission to database
   const handleSubmitToDatabase = () => {
-    // In a real scenario, you would submit the data to a database (e.g., Firebase, MongoDB)
     console.log("Submitting expenses to database:", expenses);
-    // After submitting, reset all expense entries
     setExpenses([]);
   };
 
   return (
-    <div className="flex justify-center items-center gap-[78px] bg-white p-6 rounded-lg shadow-md pb-[120px] mt-[24px] w-full  mx-auto">
-      <div className="flex flex-col shadow-lg p-6 rounded-md">
-        <h3 className=" text-2xl font-semibold mb-4 text-[#001233]">
+    <div className="flex flex-col lg:flex-row justify-center items-start gap-10 bg-white p-6 rounded-lg shadow-md mt-6 w-full max-w-7xl mx-auto px-4">
+      {/* Add Expense Form */}
+      <div className="flex flex-col w-full lg:w-1/2 shadow-lg p-6 rounded-md">
+        <h3 className="text-2xl font-semibold mb-4 text-[#001233]">
           Add Your Monthly Expenses
         </h3>
 
-        {/* Add New Expense Form */}
         <form onSubmit={handleAddExpense} className="mb-6">
           <div className="mb-4">
             <label className="block text-sm font-medium mb-2 text-[#5C677D]">
@@ -119,40 +114,38 @@ function Budget() {
         </form>
       </div>
 
-      {/* Display All Expenses */}
-      <div className="flex flex-col min-w-[690px] shadow-lg p-10 rounded-md">
-        <div className="mb-6">
-          <h4 className="text-xl font-semibold mb-4 text-[#001233]">
-            Your Expenses
-          </h4>
-          {expenses.length === 0 ? (
-            <p className="text-[#7D8597]">No expenses added yet.</p>
-          ) : (
-            <ul className="space-y-4">
-              {expenses.map((expense) => (
-                <li
-                  key={expense.id}
-                  className="bg-[#F7F9FC] p-4 rounded-lg shadow"
-                >
-                  <p className="font-bold text-lg text-[#33415C]">
-                    {expense.category}
-                  </p>
-                  <p className="text-[#5C677D]">Amount: ${expense.amount}</p>
-                  <p className="text-[#5C677D]">
-                    Payment Method: {expense.paymentMethod}
-                  </p>
-                  <p className="text-[#5C677D]">
-                    Description: {expense.description || "N/A"}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+      {/* Expenses List */}
+      <div className="flex flex-col w-full lg:w-1/2 shadow-lg p-6 rounded-md">
+        <h4 className="text-xl font-semibold mb-4 text-[#001233]">
+          Your Expenses
+        </h4>
+        {expenses.length === 0 ? (
+          <p className="text-[#7D8597]">No expenses added yet.</p>
+        ) : (
+          <ul className="space-y-4">
+            {expenses.map((expense) => (
+              <li
+                key={expense.id}
+                className="bg-[#F7F9FC] p-4 rounded-lg shadow"
+              >
+                <p className="font-bold text-lg text-[#33415C]">
+                  {expense.category}
+                </p>
+                <p className="text-[#5C677D]">Amount: ${expense.amount}</p>
+                <p className="text-[#5C677D]">
+                  Payment Method: {expense.paymentMethod}
+                </p>
+                <p className="text-[#5C677D]">
+                  Description: {expense.description || "N/A"}
+                </p>
+              </li>
+            ))}
+          </ul>
+        )}
 
         <button
           onClick={handleSubmitToDatabase}
-          className="w-full bg-[#007233] text-white p-2 rounded hover:bg-[#005622] transition duration-300"
+          className="w-full mt-6 bg-[#007233] text-white p-2 rounded hover:bg-[#005622] transition duration-300"
         >
           Submit to Database
         </button>

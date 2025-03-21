@@ -15,18 +15,25 @@ import {
   Bar,
 } from "recharts";
 
+// Format amounts as INR
+const formatCurrency = (amount) => {
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    minimumFractionDigits: 2,
+  }).format(amount);
+};
+
 const Dashboard = () => {
   const totalBudget = 2000;
   const totalExpenses = 1200;
   const remainingBudget = totalBudget - totalExpenses;
 
-  // Data for the budget Pie chart
   const budgetData = [
     { name: "Spent", value: totalExpenses },
     { name: "Remaining", value: remainingBudget },
   ];
 
-  // Data for the financial summary line chart
   const financeData = [
     { name: "Week 1", Income: 1000, Expenses: 500 },
     { name: "Week 2", Income: 1500, Expenses: 1000 },
@@ -34,7 +41,6 @@ const Dashboard = () => {
     { name: "Week 4", Income: 1800, Expenses: 1200 },
   ];
 
-  // Custom color palette
   const COLORS = ["#33415C", "#979DAC"];
 
   const transactions = [
@@ -44,32 +50,39 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="flex w-full justify-center mb-20">
-      <div className="p-8 w-[70%] my-10">
-        <h1 className="text-3xl font-semibold text-[#001233] underline ml-4 my-10">
+    <div className="flex w-full justify-center mb-20 px-4">
+      <div className="p-4 w-full max-w-7xl my-10">
+        <h1 className="text-3xl font-semibold text-[#001233] underline mb-10">
           Dashboard
         </h1>
 
         {/* Monthly Budget Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          {/* Budget Overview */}
+          {/* Budget Overview + Pie Chart + Bar Chart */}
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-semibold mb-4 text-[#33415C]">
               Monthly Budget Overview
             </h2>
-            <div className="flex justify-between mb-4">
+            <div className="flex flex-col sm:flex-row justify-between mb-4 gap-2">
               <p>
-                Total Budget: <span className="font-bold">${totalBudget}</span>
+                Total Budget:{" "}
+                <span className="font-bold">{formatCurrency(totalBudget)}</span>
               </p>
               <p>
                 Total Expenses:{" "}
-                <span className="font-bold">${totalExpenses}</span>
+                <span className="font-bold">
+                  {formatCurrency(totalExpenses)}
+                </span>
               </p>
               <p>
-                Remaining: <span className="font-bold">${remainingBudget}</span>
+                Remaining:{" "}
+                <span className="font-bold">
+                  {formatCurrency(remainingBudget)}
+                </span>
               </p>
             </div>
-            {/* Pie Chart for Budget */}
+
+            {/* Pie Chart */}
             <ResponsiveContainer width="100%" height={200}>
               <PieChart>
                 <Pie
@@ -79,7 +92,6 @@ const Dashboard = () => {
                   cx="50%"
                   cy="50%"
                   outerRadius={80}
-                  fill="#8884d8"
                 >
                   {budgetData.map((entry, index) => (
                     <Cell
@@ -88,107 +100,65 @@ const Dashboard = () => {
                     />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip formatter={(value) => formatCurrency(value)} />
               </PieChart>
             </ResponsiveContainer>
-            {/* bar graph for income */}
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold mb-2">Expenses Bar Chart</h3>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={financeData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="week 1" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Bar dataKey="week 2" fill="#629584" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-            {/* bar graph  */}
 
-            <div className="bg-white p-6 rounded-lg shadow-md">
+            {/* Bar Chart */}
+            <div className="mt-8">
               <h3 className="text-lg font-semibold mb-2">Expenses Bar Chart</h3>
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={financeData}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey={financeData.name} />
+                  <XAxis dataKey="name" />
                   <YAxis />
-                  <Tooltip />
+                  <Tooltip formatter={(value) => formatCurrency(value)} />
                   <Legend />
-                  <Bar dataKey={financeData.Expenses} fill="#629584" />
+                  <Bar dataKey="Expenses" fill="#629584" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
           </div>
-          {/* bar graph for income */}
-          {/* <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold mb-2">Expenses Bar Chart</h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={financeData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="week 1" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="week 2" fill="#629584" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div> */}
-          {/* bar graph  */}
-
-          {/* <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold mb-2">Expenses Bar Chart</h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={financeData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey={financeData.name} />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey={financeData.Expenses} fill="#629584" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div> */}
 
           {/* Recent Transactions */}
           <div className="bg-white p-6 rounded-lg shadow-md">
-            <div className="flex justify-between w-full gap-[20px]">
-              <h2 className="text-xl font-semibold mb-4 text-[#33415C]">
+            <div className="flex justify-between w-full gap-4">
+              <h2 className="text-xl font-semibold text-[#33415C]">
                 Your Budget
               </h2>
-              <h2 className="text-md mb-4 text-[#c55858]">Delete</h2>
+              <h2 className="text-md text-[#c55858] cursor-pointer">Delete</h2>
             </div>
 
-            <ul>
+            <ul className="mt-4">
               {transactions.map((transaction) => (
                 <li
                   key={transaction.id}
-                  className="border-b py-2 flex justify-between"
+                  className="border-b py-3 flex justify-between items-center"
                 >
                   <div>
                     <p className="font-semibold">{transaction.description}</p>
                     <p className="text-sm text-[#5C677D]">{transaction.date}</p>
                   </div>
-                  <p className="font-bold">${transaction.amount}</p>
+                  <p className="font-bold">
+                    {formatCurrency(transaction.amount)}
+                  </p>
                 </li>
               ))}
             </ul>
           </div>
         </div>
 
-        {/* Financial Chart Section */}
+        {/* Finance Summary Line Chart */}
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-4 text-[#33415C]">
             Finance Summary
           </h2>
-          {/* Line Chart for Financial Data */}
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={financeData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
               <YAxis />
-              <Tooltip />
+              <Tooltip formatter={(value) => formatCurrency(value)} />
               <Legend />
               <Line
                 type="monotone"

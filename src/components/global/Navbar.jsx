@@ -1,22 +1,22 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { auth } from "../../../firebase.config";
 import { onAuthStateChanged } from "firebase/auth";
+import Profile from "../authentication/Profile";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const toggleMenu = () => setIsOpen(!isOpen);
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    onAuthStateChanged(auth, (currentuser) => {
-      setCurrentUser(currentuser);
+    onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
     });
   }, []);
 
   return (
-    <nav className="bg-[#33415C] shadow-md py-4 px-28">
+    <nav className="bg-[#33415C] shadow-md py-4 px-6 md:px-20">
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
         <div className="text-white text-2xl font-bold">
@@ -24,45 +24,32 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex space-x-8">
-          <Link
-            to="/"
-            className="text-white hover:text-[#5C677D] transition-colors"
-          >
-            Home
-          </Link>
-          <Link
-            to="/expenses"
-            className="text-white hover:text-[#5C677D] transition-colors"
-          >
-            Add Expense
-          </Link>
-
-          <Link
-            to="/budget"
-            className="text-white hover:text-[#5C677D] transition-colors"
-          >
-            Budget
-          </Link>
-          <Link
-            to="/transactions"
-            className="text-white hover:text-[#5C677D] transition-colors"
-          >
-            Transactions
-          </Link>
+        <div className="hidden md:flex space-x-6">
+          {["Home", "Expenses", "Budget", "Transactions"].map((item, index) => (
+            <Link
+              key={index}
+              to={`/${item.toLowerCase()}`}
+              className="text-white hover:text-[#5C677D] transition-colors"
+            >
+              {item}
+            </Link>
+          ))}
         </div>
 
         {/* Login/Profile Links */}
-        <div className="hidden md:flex items-center space-x-8">
-          <Link to="/login" className="text-white  transition-colors">
-            {currentUser ? (
-              <div className="text-[30px]">
-                <IoPersonCircleSharp />
-              </div>
-            ) : (
-              <div className="hover:text-[#5C677D]">Login</div>
-            )}
-          </Link>
+        <div className="hidden md:flex items-center space-x-6">
+          {currentUser ? (
+            <Link to="/login" className="text-[30px] text-white">
+              <IoPersonCircleSharp />
+            </Link>
+          ) : (
+            <Link
+              to="/profile"
+              className="text-white hover:text-[#5C677D] transition-colors"
+            >
+              Login
+            </Link>
+          )}
           <Link
             to="/dashboard"
             className="text-white hover:text-[#5C677D] transition-colors"
@@ -74,7 +61,7 @@ const Navbar = () => {
         {/* Mobile Menu Button */}
         <div className="md:hidden">
           <button
-            onClick={toggleMenu}
+            onClick={() => setIsOpen(!isOpen)}
             className="text-white focus:outline-none"
           >
             <svg
@@ -98,41 +85,18 @@ const Navbar = () => {
       {/* Mobile Links */}
       {isOpen && (
         <div className="md:hidden bg-[#33415C] space-y-2 p-4">
-          <Link
-            to="/dashboard"
-            className="block text-white hover:text-[#5C677D] transition-colors"
-            onClick={toggleMenu}
-          >
-            Dashboard
-          </Link>
-          <Link
-            to="/transactions"
-            className="block text-white hover:text-[#5C677D] transition-colors"
-            onClick={toggleMenu}
-          >
-            Transactions
-          </Link>
-          <Link
-            to="/budget"
-            className="block text-white hover:text-[#5C677D] transition-colors"
-            onClick={toggleMenu}
-          >
-            Budget
-          </Link>
-          <Link
-            to="/expenses"
-            className="block text-white hover:text-[#5C677D] transition-colors"
-            onClick={toggleMenu}
-          >
-            Expenses
-          </Link>
-          <Link
-            to="/profile"
-            className="block text-white hover:text-[#5C677D] transition-colors"
-            onClick={toggleMenu}
-          >
-            Profile
-          </Link>
+          {["Dashboard", "Transactions", "Budget", "Expenses", "Profile"].map(
+            (item, index) => (
+              <Link
+                key={index}
+                to={`/${item.toLowerCase()}`}
+                className="block text-white hover:text-[#5C677D] transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                {item}
+              </Link>
+            )
+          )}
         </div>
       )}
     </nav>
