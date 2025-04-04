@@ -25,7 +25,7 @@ const Register = () => {
       });
 
       toast.success("Account created successfully");
-      navigate("/profile"); // or home page
+      navigate("/home"); // or home page
     } catch (error) {
       console.error("Registration error:", error);
       let msg = "Registration failed. Please try again.";

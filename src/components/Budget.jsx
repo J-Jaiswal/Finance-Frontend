@@ -33,7 +33,7 @@ function Budget() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row justify-center items-start gap-10 bg-white p-6 rounded-lg shadow-md mt-6 w-full max-w-7xl mx-auto px-4">
+    <div className="flex flex-col lg:flex-row justify-center items-start gap-10  p-6 mt-6 w-full max-w-7xl mx-auto px-4">
       {/* Add Expense Form */}
       <div className="flex flex-col w-full lg:w-1/2 shadow-lg p-6 rounded-md">
         <h3 className="text-2xl font-semibold mb-4 text-[#001233]">
@@ -145,9 +145,9 @@ function Budget() {
 
         <button
           onClick={handleSubmitToDatabase}
-          className="w-full mt-6 bg-[#007233] text-white p-2 rounded hover:bg-[#005622] transition duration-300"
+          className="w-full mt-6 bg-[#33415C] text-white p-2 rounded hover:bg-[#001233] transition duration-300"
         >
-          Submit to Database
+          Submit
         </button>
       </div>
     </div>

@@ -5,7 +5,7 @@ import { auth } from "../../firebase.config";
 import { toast } from "react-toastify";
 import { FadeLoader } from "react-spinners";
 
-const ExpenseTracker = () => {
+const AddExpense = () => {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("Debit");
@@ -52,7 +52,7 @@ const ExpenseTracker = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gray-50">
+    <div className="w-full">
       {loading ? (
         <div className="flex min-h-screen items-center justify-center w-full">
           <FadeLoader
@@ -64,9 +64,9 @@ const ExpenseTracker = () => {
           />
         </div>
       ) : (
-        <div className="flex flex-col items-center w-full mt-10 mb-20 px-4">
-          <div className="bg-white p-6 rounded shadow-md w-full max-w-md mx-4 sm:mx-auto">
-            <h3 className="text-lg font-semibold mb-4 text-[#001233]">
+        <div className="flex flex-col items-center w-full">
+          <div className="bg-white px-6 py-4 rounded w-full">
+            <h3 className="text-2xl font-semibold mb-4 text-[#001233]">
               Add New Transaction
             </h3>
 
@@ -168,4 +168,4 @@ const ExpenseTracker = () => {
   );
 };
 
-export default ExpenseTracker;
+export default AddExpense;

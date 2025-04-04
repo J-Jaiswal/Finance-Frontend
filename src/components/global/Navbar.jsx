@@ -2,18 +2,26 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { auth } from "../../../firebase.config";
-import { onAuthStateChanged } from "firebase/auth";
-import Profile from "../authentication/Profile";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [dropdownOpen, setdropdownOpen] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
     });
   }, []);
+
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => navigate("/home"))
+      .catch((error) => console.error("Logout Error:", error));
+  };
+
+  console.log(currentUser);
 
   return (
     <nav className="bg-[#33415C] shadow-md py-4 px-6 md:px-20">
@@ -25,26 +33,55 @@ const Navbar = () => {
 
         {/* Desktop Links */}
         <div className="hidden md:flex space-x-6">
-          {["Home", "Expenses", "Budget", "Transactions"].map((item, index) => (
-            <Link
-              key={index}
-              to={`/${item.toLowerCase()}`}
-              className="text-white hover:text-[#5C677D] transition-colors"
-            >
-              {item}
-            </Link>
-          ))}
+          {["Home", "Transactions", "Budget", "Credit Score"].map(
+            (item, index) => (
+              <Link
+                key={index}
+                to={`/${item.toLowerCase()}`}
+                className="text-white hover:text-[#5C677D] transition-colors"
+              >
+                {item}
+              </Link>
+            )
+          )}
         </div>
 
         {/* Login/Profile Links */}
         <div className="hidden md:flex items-center space-x-6">
           {currentUser ? (
-            <Link to="/login" className="text-[30px] text-white">
-              <IoPersonCircleSharp />
-            </Link>
+            <div>
+              <IoPersonCircleSharp
+                className="text-[30px] text-white cursor-pointer "
+                onClick={() => setdropdownOpen(!dropdownOpen)}
+              />
+
+              {dropdownOpen && (
+                <div className="absolute right-10 mt-2 w-60 bg-white shadow-lg rounded-lg overflow-hidden z-50">
+                  {/* User Info */}
+                  <div className="px-4 py-3 border-b border-gray-200">
+                    <p className="text-gray-900 font-semibold truncate">
+                      {currentUser.displayName || "No Name"}
+                    </p>
+                    <p className="text-gray-500 text-sm truncate">
+                      {currentUser.email}
+                    </p>
+                  </div>
+
+                  {/* Logout Button */}
+                  <div className="px-4 py-3">
+                    <button
+                      onClick={handleLogout}
+                      className="w-[60%] bg-[#3C5B6F] text-white py-2 px-4 rounded hover:bg-[#304b5b] transition duration-300"
+                    >
+                      Log Out
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           ) : (
             <Link
-              to="/profile"
+              to="/login"
               className="text-white hover:text-[#5C677D] transition-colors"
             >
               Login
@@ -85,7 +122,7 @@ const Navbar = () => {
       {/* Mobile Links */}
       {isOpen && (
         <div className="md:hidden bg-[#33415C] space-y-2 p-4">
-          {["Dashboard", "Transactions", "Budget", "Expenses", "Profile"].map(
+          {["Home", "Dashboard", "Transactions", "Budget", "Credit Score"].map(
             (item, index) => (
               <Link
                 key={index}

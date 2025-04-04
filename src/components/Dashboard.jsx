@@ -52,8 +52,8 @@ const Dashboard = () => {
   return (
     <div className="flex w-full justify-center mb-20 px-4">
       <div className="p-4 w-full max-w-7xl my-10">
-        <h1 className="text-3xl font-semibold text-[#001233] underline mb-10">
-          Dashboard
+        <h1 className="text-2xl font-semibold text-[#001233] underline mb-10">
+          Your Dashboard
         </h1>
 
         {/* Monthly Budget Section */}

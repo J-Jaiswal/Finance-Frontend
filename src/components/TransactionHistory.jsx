@@ -47,88 +47,84 @@ function TransactionHistory() {
   );
 
   return (
-    <div className="flex justify-center w-full mb-36 mt-10 px-4">
-      <div className="bg-white p-6 rounded shadow-md w-full max-w-2xl">
-        <h3 className="text-2xl font-semibold text-[#001233] mb-4">
-          Transaction History
-        </h3>
+    <div className="bg-white w-full">
+      <h3 className="text-2xl font-semibold text-[#001233] mb-4">
+        Transaction History
+      </h3>
 
-        <input
-          type="text"
-          placeholder="Search by description or category"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          className="w-full p-2 border rounded mb-4 border-[#979DAC] focus:outline-none focus:ring-2 focus:ring-[#33415C]"
-        />
+      <input
+        type="text"
+        placeholder="Search by description or category"
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
+        className="w-full p-2 border rounded mb-4 border-[#979DAC] focus:outline-none focus:ring-2 focus:ring-[#33415C]"
+      />
 
-        {currentuser ? (
-          <div>
-            {records.length !== 0 ? (
-              <ul className="space-y-4">
-                {loading && (
-                  <div className="flex justify-center w-full my-10">
-                    <FadeLoader
-                      color={color}
-                      loading={loading}
-                      radius={0}
-                      size={400}
-                      aria-label="Loading Spinner"
-                    />
+      {currentuser ? (
+        <div>
+          {records.length !== 0 ? (
+            <ul className="space-y-4">
+              {loading && (
+                <div className="flex justify-center w-full my-10">
+                  <FadeLoader
+                    color={color}
+                    loading={loading}
+                    radius={0}
+                    size={400}
+                    aria-label="Loading Spinner"
+                  />
+                </div>
+              )}
+
+              {filteredTransactions.map((transaction, ind) => (
+                <li
+                  key={ind}
+                  className="flex flex-col sm:flex-row justify-between gap-4 py-4 border-b"
+                >
+                  <div className="text-[#7D8597]">
+                    <p className="font-bold text-[#201c3e] mb-1">
+                      {transaction.description}
+                    </p>
+                    <p className="text-sm">Category: {transaction.category}</p>
+                    <p className="text-sm">
+                      Payment Method: {transaction.paymentMethod}
+                    </p>
+                    <p className="text-sm">Date: {transaction.date}</p>
                   </div>
-                )}
 
-                {filteredTransactions.map((transaction, ind) => (
-                  <li
-                    key={ind}
-                    className="flex flex-col sm:flex-row justify-between gap-4 py-4 border-b"
-                  >
-                    <div className="text-[#7D8597]">
-                      <p className="font-bold text-[#201c3e] mb-1">
-                        {transaction.description}
-                      </p>
-                      <p className="text-sm">
-                        Category: {transaction.category}
-                      </p>
-                      <p className="text-sm">
-                        Payment Method: {transaction.paymentMethod}
-                      </p>
-                      <p className="text-sm">Date: {transaction.date}</p>
-                    </div>
-
-                    <div className="flex flex-col items-start sm:items-end">
-                      <p
-                        className={`font-bold ${
-                          transaction.type === "Credit"
-                            ? "text-[#3F8F22]"
-                            : "text-[#B52E31]"
-                        }`}
-                      >
-                        {transaction.type === "Credit" ? "+" : "-"}
-                        {formatCurrency(transaction.amount)}
-                      </p>
-                      <p className="text-sm">{transaction.type}</p>
-                      <button
-                        className="py-1 px-3 mt-2 rounded-sm bg-[#5C677D] text-white text-xs hover:bg-[#33415C] transition"
-                        onClick={() => handleDelete(transaction._id)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <div className="mt-16 mb-32 font-medium w-full text-center">
-                You haven't added any transactions yet!
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="text-center mt-16 mb-32 font-medium">
-            Please log in to see your recent transactions!
-          </div>
-        )}
-      </div>
+                  <div className="flex flex-col items-start sm:items-end">
+                    <p
+                      className={`font-bold ${
+                        transaction.type === "Credit"
+                          ? "text-[#3F8F22]"
+                          : "text-[#B52E31]"
+                      }`}
+                    >
+                      {transaction.type === "Credit" ? "+" : "-"}
+                      {formatCurrency(transaction.amount)}
+                    </p>
+                    <p className="text-sm">{transaction.type}</p>
+                    <button
+                      className="py-1 px-3 mt-2 rounded-sm bg-[#5C677D] text-white text-xs hover:bg-[#33415C] transition"
+                      onClick={() => handleDelete(transaction._id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="mt-16 mb-32 font-medium w-full text-center">
+              You haven't added any transactions yet!
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="text-center mt-16 mb-32 font-medium">
+          Please log in to see your recent transactions!
+        </div>
+      )}
     </div>
   );
 }

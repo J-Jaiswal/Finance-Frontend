@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
-    <footer className="bg-[#001233] text-white py-8 px-4 md:px-20">
-      <div className="container mx-auto flex flex-col md:flex-row justify-between items-start gap-10">
+    <footer className="bg-[#001233] text-white py-8 px-4 md:px-20 w-full">
+      <div className="container mx-auto flex flex-col md:flex-row justify-between items-start gap-8">
         {/* Logo and description */}
         <div className="w-full md:w-1/2 text-left">
           <h2 className="text-xl font-bold text-[#7D8597]">Financo</h2>
